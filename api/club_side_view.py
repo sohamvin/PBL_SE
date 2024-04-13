@@ -13,7 +13,7 @@ from rest_framework import status
 from django.contrib.auth import authenticate
 from datetime import timedelta, datetime
 from rest_framework.authentication import TokenAuthentication
-
+from ..helpers.helper1 import *
 
 
 
@@ -24,5 +24,9 @@ class AllAdmins(APIView):
     
     def get(self, request):
         user = request.user
+        admin_exists = Administrator.objects.filter(user=user)
+        
+        if not admin_exists:
+            return Response
 
 
