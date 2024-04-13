@@ -101,6 +101,7 @@ class Event(models.Model):
     end_date = models.DateField(null=True)
     description = models.TextField()
     request_id = models.CharField(_("ID"), max_length=8, primary_key=True, default='00000000')
+    club = models.ForeignKey(Club, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = _("Event")

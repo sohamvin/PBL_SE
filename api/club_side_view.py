@@ -39,12 +39,24 @@ class Events(APIView):
     
     def post(self, request):
         if check_if_club(request.user):
-            serializer = EventSerializer(data=request.data)
+            club = Club.objects.first(user=request.user)
+            payload = request.data
+            payload["club"] = club.id
+            serializer = EventSerializer(data=payload)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             else:
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({"error": "Unauthorized access"}, status=status.HTTP_403_FORBIDDEN)
+    
+    def get(self, request):
+        if check_if_club(request.user):
+            events = Event.objects.filter(user=request.user)
+            ser = EventSerializer(events, many=True).data
+            
+            return Response(ser, status=status.HTTP_200_OK)
         else:
             return Response({"error": "Unauthorized access"}, status=status.HTTP_403_FORBIDDEN)
 

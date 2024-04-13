@@ -16,7 +16,7 @@ class AdministratorSerializer(serializers.ModelSerializer):
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields = ['request_id', 'name', 'start_date', 'end_date', 'description']
+        fields = ['request_id', 'name', 'start_date', 'end_date', 'description', 'club']
 
     def validate(self, data):
         """
