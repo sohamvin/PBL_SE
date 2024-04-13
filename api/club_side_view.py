@@ -39,7 +39,7 @@ class Events(APIView):
     
     def post(self, request):
         if check_if_club(request.user):
-            club = Club.objects.first(user=request.user)
+            club = Club.objects.filter(user=request.user).first()
             payload = request.data
             payload["club"] = club.id
             serializer = EventSerializer(data=payload)
@@ -53,7 +53,8 @@ class Events(APIView):
     
     def get(self, request):
         if check_if_club(request.user):
-            events = Event.objects.filter(user=request.user)
+            club = Club.objects.filter(user=request.user).first()
+            events = Event.objects.filter(club=club)
             ser = EventSerializer(events, many=True).data
             
             return Response(ser, status=status.HTTP_200_OK)
