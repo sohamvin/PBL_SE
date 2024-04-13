@@ -14,4 +14,6 @@ urlpatterns = [
     path("club/request/<int:pk>", Requests.as_view()),
     path("club/admins", AllAdmins.as_view()),
     path("club/send", SendRequest.as_view()),
+    path("admin/requests", ShowRequests.as_view()),
+    path("admin/requests/<str:pk>", ReviewRequests.as_view()),
 ]

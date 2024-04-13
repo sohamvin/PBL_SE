@@ -23,6 +23,7 @@ def getClub(user):
 def getAdmin(user):
     if check_if_admin(user):
         admin = Administrator.objects.filter(user=user).first()
+        print("admin: ", admin)
         return admin
     else:
         return None

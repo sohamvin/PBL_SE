@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Administrator, Club, Event, RequestMap
+from .models import Administrator, Club, Event, RequestMap, Request
 
 @admin.register(Club)
 class ClubAdmin(admin.ModelAdmin):
@@ -16,6 +16,10 @@ class EventAdmin(admin.ModelAdmin):
 @admin.register(RequestMap)
 class Radmin(admin.ModelAdmin):
     list_display = ['status']
+
+@admin.register(Request)
+class RequestAdmin(admin.ModelAdmin):
+    list_display = ['request_id', 'subject', 'status']
 
     # def display_id(self, obj):
     #     return str(obj.id)
