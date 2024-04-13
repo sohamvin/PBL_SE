@@ -11,6 +11,13 @@ class AdministratorSerializer(serializers.ModelSerializer):
         fields = '__all__'  # This will include all fields of the Administrator model.
         # Optionally, you can specify fields explicitly:
         # fields = ['name', 'role', 'user', 'club']
+        
+
+class RequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Request
+        fields = '__all__'
+
 
 
 class EventSerializer(serializers.ModelSerializer):

@@ -128,10 +128,11 @@ class Event(models.Model):
 class Request(models.Model):
     request_id = models.CharField(_("ID"), max_length=8, primary_key=True, default='00000000')
     club = models.ForeignKey(Club, verbose_name=_("Club"), on_delete=models.CASCADE)
-    event = models.ForeignKey(Event, verbose_name=_("Event"), on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, verbose_name=_("Event"), on_delete=models.CASCADE, null=True)
     title = models.CharField(_("Title"), max_length=250)
     body = models.TextField(_("Body"))
     date = models.DateField(_("Date"), auto_now_add=True)
+    final_aprove_date = models.DateField(null=True)
     subject = models.TextField(_("Subject"))
     status = models.CharField(_("Status"), max_length=50, choices=[(status.value, status.value) for status in STATUS], default=STATUS.PENDING.value)
 
@@ -157,6 +158,7 @@ class ReviewMessage(models.Model):
     message = models.TextField(_("Message"))
     request = models.ForeignKey(Request, verbose_name=_("Request"), on_delete=models.CASCADE)
     administrator = models.ForeignKey(Administrator, verbose_name=_("Administrator"), on_delete=models.CASCADE)
+    
 
     class Meta:
         verbose_name = _("Review Message")
