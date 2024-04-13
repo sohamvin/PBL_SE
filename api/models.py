@@ -97,6 +97,9 @@ class Administrator(models.Model):
 
 class Event(models.Model):
     name = models.CharField(_("Event Name"), max_length=50)
+    start_date = models.DateField(null=True)
+    end_date = models.DateField(null=True)
+    description = models.TextField()
     request_id = models.CharField(_("ID"), max_length=8, primary_key=True, default='00000000')
 
     class Meta:
@@ -110,8 +113,11 @@ class Event(models.Model):
         return reverse("Event_detail", kwargs={"pk": self.pk})
 
     def save(self, *args, **kwargs):
-        if not self.request_id:
-            self.request_id = str(random.randint(10000000, 99999999))
+        if not self.request_id or self.request_id == '00000000':
+            unique_id = str(random.randint(10000000, 99999999))
+            while Event.objects.filter(request_id=unique_id).exists():
+                unique_id = str(random.randint(10000000, 99999999))
+            self.request_id = unique_id
         super().save(*args, **kwargs)
     
 
@@ -139,8 +145,11 @@ class Request(models.Model):
         return reverse("Request_detail", kwargs={"pk": self.pk})
 
     def save(self, *args, **kwargs):
-        if not self.request_id:
-            self.request_id = str(random.randint(10000000, 99999999))
+        if not self.request_id or self.request_id == '00000000':
+            unique_id = str(random.randint(10000000, 99999999))
+            while Event.objects.filter(request_id=unique_id).exists():
+                unique_id = str(random.randint(10000000, 99999999))
+            self.request_id = unique_id
         super().save(*args, **kwargs)
 
 class ReviewMessage(models.Model):
