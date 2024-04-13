@@ -159,7 +159,6 @@ class ReviewMessage(models.Model):
     request = models.ForeignKey(Request, verbose_name=_("Request"), on_delete=models.CASCADE)
     administrator = models.ForeignKey(Administrator, verbose_name=_("Administrator"), on_delete=models.CASCADE)
     
-
     class Meta:
         verbose_name = _("Review Message")
         verbose_name_plural = _("Review Messages")
@@ -178,6 +177,8 @@ class ReviewMessage(models.Model):
 class RequestMap(models.Model):
     request = models.ForeignKey(Request, verbose_name=_(""), on_delete=models.CASCADE)
     sendto = models.ForeignKey(Administrator, verbose_name=_(""), on_delete=models.CASCADE)
+    status = models.CharField(_("Status"), max_length=50, choices=[(status.value, status.value) for status in STATUS], default=STATUS.PENDING.value)
+    
 
     class Meta:
         verbose_name = _("RequestMap")
