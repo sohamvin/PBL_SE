@@ -81,6 +81,9 @@ class Club(models.Model):
 class Administrator(models.Model):
     name = models.CharField(_("Name"), max_length=50)
     role = models.CharField(_("Role"), max_length=50, choices=[(role.value, role.value) for role in ROLE])
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    club = models.ForeignKey(Club, on_delete=models.CASCADE, blank=True, null=True)
+    # if administartor type is CO-ORDINATOR, of which club? so this field is for that. 
 
     class Meta:
         verbose_name = _("Administrator")
@@ -94,7 +97,7 @@ class Administrator(models.Model):
 
 class Event(models.Model):
     name = models.CharField(_("Event Name"), max_length=50)
-    event_id = models.UUIDField(_("Primary Key"), default=uuid.uuid4, editable=False, unique=True)
+    request_id = models.CharField(_("ID"), max_length=8, primary_key=True, default='00000000')
 
     class Meta:
         verbose_name = _("Event")
@@ -105,6 +108,11 @@ class Event(models.Model):
 
     def get_absolute_url(self):
         return reverse("Event_detail", kwargs={"pk": self.pk})
+
+    def save(self, *args, **kwargs):
+        if not self.request_id:
+            self.request_id = str(random.randint(10000000, 99999999))
+        super().save(*args, **kwargs)
     
 
 
@@ -119,7 +127,6 @@ class Request(models.Model):
     date = models.DateField(_("Date"), auto_now_add=True)
     subject = models.TextField(_("Subject"))
     status = models.CharField(_("Status"), max_length=50, choices=[(status.value, status.value) for status in STATUS], default=STATUS.PENDING.value)
-    send_to = models.ManyToOneRel
 
     class Meta:
         verbose_name = _("Request")
@@ -163,9 +170,6 @@ class RequestMap(models.Model):
     class Meta:
         verbose_name = _("RequestMap")
         verbose_name_plural = _("RequestMaps")
-
-    def __str__(self):
-        return self.name
 
     def get_absolute_url(self):
         return reverse("RequestMap_detail", kwargs={"pk": self.pk})
