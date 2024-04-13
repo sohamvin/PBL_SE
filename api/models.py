@@ -175,14 +175,14 @@ class ReviewMessage(models.Model):
 
 # each injstance of this is sending to each administartor
 class RequestMap(models.Model):
-    request = models.ForeignKey(Request, verbose_name=_(""), on_delete=models.CASCADE)
-    sendto = models.ForeignKey(Administrator, verbose_name=_(""), on_delete=models.CASCADE)
+    request = models.ForeignKey(Request, verbose_name=_("Request"), on_delete=models.CASCADE)
+    sendto = models.ForeignKey(Administrator, verbose_name=_("Administrator"), on_delete=models.CASCADE)
     status = models.CharField(_("Status"), max_length=50, choices=[(status.value, status.value) for status in STATUS], default=STATUS.PENDING.value)
     
-
     class Meta:
         verbose_name = _("RequestMap")
         verbose_name_plural = _("RequestMaps")
 
     def get_absolute_url(self):
         return reverse("RequestMap_detail", kwargs={"pk": self.pk})
+

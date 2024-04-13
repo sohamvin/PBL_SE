@@ -12,4 +12,6 @@ urlpatterns = [
     path('club/event', Events.as_view()),
     path("club/request", Requests.as_view()),
     path("club/request/<int:pk>", Requests.as_view()),
+    path("club/admins", AllAdmins.as_view()),
+    path("club/send", SendRequest.as_view()),
 ]

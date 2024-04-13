@@ -5,6 +5,13 @@ from .models import Club, Event, Request, RequestMap, ReviewMessage
 from rest_framework import serializers
 from .models import Administrator
 
+class RequestMapSerializer(serializers.ModelSerializer):
+    # status = 
+    class Meta:
+        model = RequestMap
+        fields = ['request', 'sendto', "status"]
+
+
 class AdministratorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Administrator
