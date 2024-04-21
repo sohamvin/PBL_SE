@@ -5,6 +5,7 @@ from .admin_side_view import *
 from .club_side_view import *
 
 
+
 urlpatterns = [
     path('register/', UserRegistration.as_view(), name='user-registration'),
     path('test/', ClubApi.as_view()),
