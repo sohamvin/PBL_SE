@@ -1,5 +1,5 @@
 django
 djangorestframework
-dj-databse-url
+dj-database-url
 gunicorn
 asgiref
